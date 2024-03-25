@@ -3,11 +3,8 @@
 nome_arquivo_entrada = 'Test.cmp'
 nome_arquivo_saida = 'Test1.cmp'
 
-REMOVER = 0
-NEUTRO = 1
-FIM_DE_LINHA = 2
 
-def remover_comentario_linha(txt: str):        
+""" def remover_comentario_linha(txt: str):        
     achou_primeira_barra = False
     achou_segunda_barra = False
     achou_fim_linha = False
@@ -38,10 +35,35 @@ def remover_comentario_linha(txt: str):
         
         indice += 1
 
-
+ """
         
 
+def remover_comentario_linha(txt: str) -> str:
+    lista_arquivo = list(txt)
+    while txt.find('//') != -1:
+        inicio_comentario = txt.find('//')
+        fim_comentario = txt.find('\n', inicio_comentario)
 
+        lista_arquivo[inicio_comentario: fim_comentario] = []
+        txt = ''.join(lista_arquivo)
+        
+    return txt
+
+def remover_comentario_multilinhas(txt: str) -> str:
+    lista_txt = list(txt)
+
+    while txt.find('/*') != -1:
+        inicio = txt.find('/*')
+        fim = txt.find("*\\", inicio)
+
+        if fim == -1:
+            lista_txt[inicio :] = []
+        else:
+            lista_txt[inicio : fim + 2] = []
+
+        txt = ''.join(lista_txt)
+
+    return txt
 
 
 def carregar_arquivo() -> str:
@@ -60,20 +82,13 @@ def salvar_arquivo(txt: str) -> None:
     
  
 arquivo_txt = carregar_arquivo()
-lista_arquivo = list(arquivo_txt)
-print(''.join(lista_arquivo))
-
-# remover comentários de linha
-while arquivo_txt.find('//') != -1:
-    inicio_comentario = arquivo_txt.find('//')
-    fim_comentario = arquivo_txt.find('\n', inicio_comentario)
-
-    lista_arquivo[inicio_comentario: fim_comentario] = []
-    print(''.join(lista_arquivo))
-    arquivo_txt = ''.join(lista_arquivo)
-    print('===============================================================')
+texto = remover_comentario_linha(arquivo_txt)
+texto_sem_comentarios = remover_comentario_multilinhas(texto)
+print(texto_sem_comentarios)
+#salvar_arquivo(texto_sem_comentarios)
 
 
+# remover comentários de bloco
 
 
 
