@@ -64,20 +64,40 @@ def remover_quebras_de_linha(txt: str) -> str:
 
     return ''.join(novo_texto)
 
+def remover_espacos_em_branco(txt: str) -> str:
+    achou_espaco_branco = False
+    lista_txt = list(txt)
+
+    novo_texto = []
+
+    for caractere in lista_txt:
+        if caractere == ' ' or caractere == '\t':
+            if achou_espaco_branco == True:
+                pass
+            else:
+                achou_espaco_branco = True
+                novo_texto.append(' ')
+
+        else:
+            novo_texto.append(caractere)
+            achou_espaco_branco = False
+
+
+    return ''.join(novo_texto)
+
  
 arquivo_txt = carregar_arquivo()
 texto = remover_comentario_linha(arquivo_txt)
 texto_sem_comentarios = remover_comentario_multilinhas(texto)
 texto_semifinal = remover_quebras_de_linha(texto_sem_comentarios)
-print(texto_semifinal)
+texto_final = remover_espacos_em_branco(texto_semifinal)
+
 salvar_arquivo(texto_semifinal)
+print(texto_final)
 
 # remover quebras de linha
 
 
 
-    
 
-
-
-
+ 
