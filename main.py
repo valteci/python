@@ -69,11 +69,15 @@ def remover_espacos_em_branco(txt: str) -> str:
     lista_txt = list(txt)
 
     novo_texto = []
+    posicao = 0
 
     for caractere in lista_txt:
         if caractere == ' ' or caractere == '\t':
             if achou_espaco_branco == True:
                 pass
+            elif (posicao != 0) and (posicao + 1 < len(lista_txt)):
+                if (lista_txt[posicao - 1] == '\n') or (lista_txt[posicao + 1] == '\n'):
+                    pass            
             else:
                 achou_espaco_branco = True
                 novo_texto.append(' ')
@@ -82,6 +86,14 @@ def remover_espacos_em_branco(txt: str) -> str:
             novo_texto.append(caractere)
             achou_espaco_branco = False
 
+        posicao += 1
+
+    while novo_texto[0] == ' ' or novo_texto[0] == '\t':
+        if novo_texto[0] == ' ':
+            novo_texto.remove(' ')
+
+        elif novo_texto[0] == '\t':
+            novo_texto.remove('\t')
 
     return ''.join(novo_texto)
 
@@ -92,7 +104,7 @@ texto_sem_comentarios = remover_comentario_multilinhas(texto)
 texto_semifinal = remover_quebras_de_linha(texto_sem_comentarios)
 texto_final = remover_espacos_em_branco(texto_semifinal)
 
-salvar_arquivo(texto_semifinal)
+salvar_arquivo(texto_final)
 print(texto_final)
 
 # remover quebras de linha
